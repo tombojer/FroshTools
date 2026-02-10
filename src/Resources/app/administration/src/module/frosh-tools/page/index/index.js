@@ -34,5 +34,18 @@ Component.register('frosh-tools-index', {
                 );
             }
         },
+        shopwareOperatorAvailable() {
+            try {
+                return (
+                    Shopware.Store.get('context').app.config.settings
+                        ?.froshTools.shopwareOperatorEnabled || false
+                );
+            } catch {
+                return (
+                    Shopware.State.get('context').app.config.settings
+                        ?.froshTools.shopwareOperatorEnabled || false
+                );
+            }
+        },
     },
 });

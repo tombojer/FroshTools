@@ -122,6 +122,44 @@
                     "7d": "Last 7 Days",
                     "30d": "Last 30 Days"
                 }
+            },
+            "shopwareOperator": {
+                "title": "Shopware Operator",
+                "pods": {
+                    "title": "Pods",
+                    "running": "Running",
+                    "pending": "Pending",
+                    "failed": "Failed"
+                },
+                "resources": {
+                    "title": "Resources",
+                    "cpu": "CPU Usage",
+                    "memory": "Memory Usage",
+                    "limit": "Limit: {limit}"
+                },
+                "systemStatus": "System Status",
+                "cache": {
+                    "app": "App Cache",
+                    "session": "Session Cache"
+                },
+                "database": {
+                    "title": "Database"
+                },
+                "s3": {
+                    "title": "S3 Storage"
+                },
+                "scaling": {
+                    "title": "Scaling",
+                    "replicas": "Replicas (Current / Desired)"
+                },
+                "scheduledTasks": {
+                    "title": "Operator Scheduled Tasks",
+                    "name": "Name",
+                    "status": "Status",
+                    "interval": "Interval",
+                    "lastRun": "Last Run",
+                    "nextRun": "Next Run"
+                }
             }
         },
         "clear": "Clear",

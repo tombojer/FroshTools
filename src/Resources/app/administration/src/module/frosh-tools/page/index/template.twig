@@ -40,6 +40,12 @@
             >
                 {{ $t('frosh-tools.tabs.fastly.title') }}
             </sw-tabs-item>
+            <sw-tabs-item
+                :route="{ name: 'frosh.tools.index.shopware-operator' }"
+                v-if="shopwareOperatorAvailable"
+            >
+                {{ $t('frosh-tools.tabs.shopwareOperator.title') }}
+            </sw-tabs-item>
         </sw-tabs>
         <router-view></router-view>
     </template>

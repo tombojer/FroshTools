@@ -11,6 +11,8 @@ class AdminInfoListener
     public function __construct(
         #[Autowire('%frosh_tools.elasticsearch.enabled%')]
         private bool $elasticsearchEnabled,
+        #[Autowire(value: '%env(default::SHOPWARE_OPERATOR_URL)%')]
+        private readonly string $shopwareOperatorUrl = '',
         #[Autowire(param: 'shopware.http_cache.reverse_proxy.fastly.service_id')]
         private readonly ?string $fastlyServiceId = null,
     ) {
@@ -30,6 +32,7 @@ class AdminInfoListener
         $data['settings']['froshTools'] = [
             'elasticsearchEnabled' => $this->elasticsearchEnabled,
             'fastlyEnabled' => !empty($this->fastlyServiceId),
+            'shopwareOperatorEnabled' => !empty($this->shopwareOperatorUrl),
         ];
 
         $event->getResponse()->setContent(json_encode($data, \JSON_THROW_ON_ERROR));

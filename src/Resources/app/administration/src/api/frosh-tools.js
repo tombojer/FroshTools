@@ -304,6 +304,17 @@ class FroshTools extends ApiService {
                 return ApiService.handleResponse(response);
             });
     }
+
+    shopwareOperatorCheck() {
+        const apiRoute = `${this.getApiBasePath()}/shopware-operator/check`;
+        return this.httpClient
+            .get(apiRoute, {
+                headers: this.getBasicHeaders(),
+            })
+            .then((response) => {
+                return ApiService.handleResponse(response);
+            });
+    }
 }
 
 export default FroshTools;
