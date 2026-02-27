@@ -12,7 +12,7 @@ class AdminInfoListener
         #[Autowire('%frosh_tools.elasticsearch.enabled%')]
         private bool $elasticsearchEnabled,
         #[Autowire(value: '%env(default::SHOPWARE_OPERATOR_URL)%')]
-        private readonly string $shopwareOperatorUrl = '',
+        private readonly ?string $shopwareOperatorUrl = null,
         #[Autowire(param: 'shopware.http_cache.reverse_proxy.fastly.service_id')]
         private readonly ?string $fastlyServiceId = null,
     ) {

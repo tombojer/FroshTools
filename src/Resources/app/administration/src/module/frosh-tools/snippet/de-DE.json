@@ -125,40 +125,29 @@
             },
             "shopwareOperator": {
                 "title": "Shopware Operator",
-                "pods": {
-                    "title": "Pods",
-                    "running": "Laufend",
-                    "pending": "Ausstehend",
-                    "failed": "Fehlgeschlagen"
+                "noStores": "Keine Stores in den Operator-Metriken gefunden",
+                "currentImage": "Aktuelles Image",
+                "deployments": {
+                    "title": "Deployments",
+                    "type": "Typ",
+                    "state": "Status",
+                    "replicas": "Replicas (verfügbar / gewünscht)"
                 },
-                "resources": {
-                    "title": "Ressourcen",
-                    "cpu": "CPU Auslastung",
-                    "memory": "Speicher Auslastung",
-                    "limit": "Limit: {limit}"
+                "hpa": {
+                    "enabled": "HPA",
+                    "yes": "Aktiviert",
+                    "no": "Deaktiviert",
+                    "replicas": "Replicas"
                 },
-                "systemStatus": "System Status",
-                "cache": {
-                    "app": "App Cache",
-                    "session": "Session Cache"
-                },
-                "database": {
-                    "title": "Datenbank"
-                },
-                "s3": {
-                    "title": "S3 Speicher"
-                },
-                "scaling": {
-                    "title": "Skalierung",
-                    "replicas": "Replicas (Aktuell / Gewünscht)"
-                },
-                "scheduledTasks": {
-                    "title": "Operator Geplante Aufgaben",
-                    "name": "Name",
-                    "status": "Status",
-                    "interval": "Intervall",
-                    "lastRun": "Letzte Ausführung",
-                    "nextRun": "Nächste Ausführung"
+                "scheduledTask": {
+                    "lastRunStatus": "Letzter Ausführungsstatus",
+                    "suspended": "Geplante Aufgabe",
+                    "lastSuccess": "Letzter Erfolg",
+                    "success": "Erfolgreich",
+                    "failed": "Fehlgeschlagen",
+                    "unknown": "Unbekannt",
+                    "yes": "Pausiert",
+                    "no": "Aktiv"
                 }
             }
         },

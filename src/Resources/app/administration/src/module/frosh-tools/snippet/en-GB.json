@@ -125,40 +125,29 @@
             },
             "shopwareOperator": {
                 "title": "Shopware Operator",
-                "pods": {
-                    "title": "Pods",
-                    "running": "Running",
-                    "pending": "Pending",
-                    "failed": "Failed"
+                "noStores": "No stores found in operator metrics",
+                "currentImage": "Current Image",
+                "deployments": {
+                    "title": "Deployments",
+                    "type": "Type",
+                    "state": "State",
+                    "replicas": "Replicas (available / desired)"
                 },
-                "resources": {
-                    "title": "Resources",
-                    "cpu": "CPU Usage",
-                    "memory": "Memory Usage",
-                    "limit": "Limit: {limit}"
+                "hpa": {
+                    "enabled": "HPA",
+                    "yes": "Enabled",
+                    "no": "Disabled",
+                    "replicas": "replicas"
                 },
-                "systemStatus": "System Status",
-                "cache": {
-                    "app": "App Cache",
-                    "session": "Session Cache"
-                },
-                "database": {
-                    "title": "Database"
-                },
-                "s3": {
-                    "title": "S3 Storage"
-                },
-                "scaling": {
-                    "title": "Scaling",
-                    "replicas": "Replicas (Current / Desired)"
-                },
-                "scheduledTasks": {
-                    "title": "Operator Scheduled Tasks",
-                    "name": "Name",
-                    "status": "Status",
-                    "interval": "Interval",
-                    "lastRun": "Last Run",
-                    "nextRun": "Next Run"
+                "scheduledTask": {
+                    "lastRunStatus": "Last Run Status",
+                    "suspended": "Scheduled Task",
+                    "lastSuccess": "Last Success",
+                    "success": "Success",
+                    "failed": "Failed",
+                    "unknown": "Unknown",
+                    "yes": "Suspended",
+                    "no": "Active"
                 }
             }
         },

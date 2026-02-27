@@ -10,105 +10,77 @@
             <sw-container v-else-if="error" columns="1fr" justify="center">
                 <sw-alert variant="error">{{ error }}</sw-alert>
             </sw-container>
+            <div v-else-if="data && data.stores.length === 0">
+                <sw-alert variant="info">{{ $t('frosh-tools.tabs.shopwareOperator.noStores') }}</sw-alert>
+            </div>
             <div v-else>
-                <!-- Pod Status -->
-                <sw-card-section divider="bottom">
-                    <h3>{{ $t('frosh-tools.tabs.shopwareOperator.pods.title') }}</h3>
-                    <div class="metric-grid">
-                        <div class="metric-card">
-                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.pods.running') }}</div>
-                            <div class="metric-card__value" style="color: #2c662d;">{{ data.pods.running }}</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.pods.pending') }}</div>
-                            <div class="metric-card__value" style="color: #665d28;">{{ data.pods.pending }}</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.pods.failed') }}</div>
-                            <div class="metric-card__value" style="color: #a30000;">{{ data.pods.failed }}</div>
-                        </div>
+                <sw-card-section
+                    v-for="store in data.stores"
+                    :key="store.name"
+                    divider="bottom"
+                >
+                    <!-- Store Header -->
+                    <div class="store-header">
+                        <h3>{{ store.name }}</h3>
+                        <span :class="getStoreStateClass(store.state)">{{ store.state }}</span>
                     </div>
-                </sw-card-section>
+                    <div class="store-namespace">{{ store.namespace }}</div>
 
-                <!-- Resources -->
-                <sw-card-section divider="bottom">
-                    <h3>{{ $t('frosh-tools.tabs.shopwareOperator.resources.title') }}</h3>
-                    <div class="metric-grid">
-                        <div class="metric-card">
-                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.resources.cpu') }}</div>
-                            <div class="metric-card__value">{{ data.resources.cpuUsage }}</div>
-                            <div class="metric-card__subtext">{{ $t('frosh-tools.tabs.shopwareOperator.resources.limit', { limit: data.resources.cpuLimit }) }}</div>
-                        </div>
-                        <div class="metric-card">
-                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.resources.memory') }}</div>
-                            <div class="metric-card__value">{{ data.resources.memoryUsage }}</div>
-                            <div class="metric-card__subtext">{{ $t('frosh-tools.tabs.shopwareOperator.resources.limit', { limit: data.resources.memoryLimit }) }}</div>
-                        </div>
-                    </div>
-                </sw-card-section>
-
-                <!-- Status Overview (Cache, DB, S3) -->
-                <sw-card-section divider="bottom">
-                    <h3>{{ $t('frosh-tools.tabs.shopwareOperator.systemStatus') }}</h3>
-                    <div class="metric-grid">
-                         <!-- Cache -->
-                        <div class="metric-card">
-                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.cache.app') }}</div>
-                            <span :class="getStatusClass(data.cache.appCache)">{{ data.cache.appCache }}</span>
-                        </div>
-                         <div class="metric-card">
-                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.cache.session') }}</div>
-                            <span :class="getStatusClass(data.cache.sessionCache)">{{ data.cache.sessionCache }}</span>
-                        </div>
-                        <!-- Database -->
-                         <div class="metric-card">
-                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.database.title') }}</div>
-                            <span :class="getStatusClass(data.database.status)">{{ data.database.status }}</span>
-                             <div class="metric-card__subtext">{{ data.database.latency }} | {{ data.database.openConnections }} conns</div>
-                        </div>
-                         <!-- S3 -->
-                         <div class="metric-card">
-                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.s3.title') }}</div>
-                             <span :class="getStatusClass(data.s3.status)">{{ data.s3.status }}</span>
-                        </div>
-                    </div>
-                </sw-card-section>
-
-                 <!-- Scaling -->
-                <sw-card-section divider="bottom">
-                     <h3>{{ $t('frosh-tools.tabs.shopwareOperator.scaling.title') }}</h3>
-                    <div class="metric-grid">
-                        <div class="metric-card" v-for="(info, component) in data.scaling" :key="component">
-                             <div class="metric-card__label">{{ component }}</div>
-                             <div class="metric-card__value">{{ info.current }} / {{ info.desired }}</div>
-                             <div class="metric-card__subtext">{{ $t('frosh-tools.tabs.shopwareOperator.scaling.replicas') }}</div>
-                        </div>
-                    </div>
-                </sw-card-section>
-
-                 <!-- Scheduled Tasks -->
-                <sw-card-section>
-                    <h3>{{ $t('frosh-tools.tabs.shopwareOperator.scheduledTasks.title') }}</h3>
+                    <!-- Deployments -->
+                    <h4>{{ $t('frosh-tools.tabs.shopwareOperator.deployments.title') }}</h4>
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>{{ $t('frosh-tools.tabs.shopwareOperator.scheduledTasks.name') }}</th>
-                                <th>{{ $t('frosh-tools.tabs.shopwareOperator.scheduledTasks.status') }}</th>
-                                <th>{{ $t('frosh-tools.tabs.shopwareOperator.scheduledTasks.interval') }}</th>
-                                <th>{{ $t('frosh-tools.tabs.shopwareOperator.scheduledTasks.lastRun') }}</th>
-                                <th>{{ $t('frosh-tools.tabs.shopwareOperator.scheduledTasks.nextRun') }}</th>
+                                <th>{{ $t('frosh-tools.tabs.shopwareOperator.deployments.type') }}</th>
+                                <th>{{ $t('frosh-tools.tabs.shopwareOperator.deployments.state') }}</th>
+                                <th>{{ $t('frosh-tools.tabs.shopwareOperator.deployments.replicas') }}</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr v-for="task in data.scheduledTasks" :key="task.name">
-                                <td>{{ task.name }}</td>
-                                <td><span :class="getStatusClass(task.status)">{{ task.status }}</span></td>
-                                <td>{{ task.interval }}</td>
-                                <td>{{ task.lastRun }}</td>
-                                <td>{{ task.nextRun }}</td>
+                            <tr v-for="(deployment, type) in store.deployments" :key="type">
+                                <td class="deployment-type">{{ type }}</td>
+                                <td>
+                                    <span :class="getDeploymentStateClass(deployment.state)">{{ deployment.state }}</span>
+                                </td>
+                                <td>{{ deployment.availableReplicas }} / {{ deployment.desiredReplicas }}</td>
                             </tr>
                         </tbody>
                     </table>
+
+                    <!-- HPA & Scheduled Task -->
+                    <div class="metric-grid">
+                        <div class="metric-card">
+                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.hpa.enabled') }}</div>
+                            <span :class="store.hpa.enabled ? 'status-badge status-badge--success' : 'status-badge status-badge--warning'">
+                                {{ store.hpa.enabled ? $t('frosh-tools.tabs.shopwareOperator.hpa.yes') : $t('frosh-tools.tabs.shopwareOperator.hpa.no') }}
+                            </span>
+                            <div class="metric-card__subtext" v-if="store.hpa.enabled">
+                                {{ store.hpa.minReplicas }} – {{ store.hpa.maxReplicas }} {{ $t('frosh-tools.tabs.shopwareOperator.hpa.replicas') }}
+                            </div>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.scheduledTask.lastRunStatus') }}</div>
+                            <span :class="getScheduledTaskStatusClass(store.scheduledTask.lastRunStatus)">
+                                {{ getScheduledTaskStatusLabel(store.scheduledTask.lastRunStatus) }}
+                            </span>
+                        </div>
+                        <div class="metric-card">
+                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.scheduledTask.suspended') }}</div>
+                            <span :class="store.scheduledTask.suspended ? 'status-badge status-badge--warning' : 'status-badge status-badge--success'">
+                                {{ store.scheduledTask.suspended ? $t('frosh-tools.tabs.shopwareOperator.scheduledTask.yes') : $t('frosh-tools.tabs.shopwareOperator.scheduledTask.no') }}
+                            </span>
+                        </div>
+                        <div class="metric-card" v-if="store.scheduledTask.lastSuccessTimestamp">
+                            <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.scheduledTask.lastSuccess') }}</div>
+                            <div class="metric-card__value metric-card__value--sm">{{ formatTimestamp(store.scheduledTask.lastSuccessTimestamp) }}</div>
+                        </div>
+                    </div>
+
+                    <!-- Current Image -->
+                    <div class="image-info" v-if="store.currentImage">
+                        <div class="metric-card__label">{{ $t('frosh-tools.tabs.shopwareOperator.currentImage') }}</div>
+                        <code class="image-tag">{{ store.currentImage }}</code>
+                    </div>
                 </sw-card-section>
             </div>
         </sw-card-section>

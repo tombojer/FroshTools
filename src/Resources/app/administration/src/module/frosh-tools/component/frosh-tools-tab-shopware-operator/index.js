@@ -35,15 +35,53 @@ Component.register('frosh-tools-tab-shopware-operator', {
             }
         },
 
-        getStatusClass(status) {
-            const lowerStatus = status ? status.toLowerCase() : '';
-            if (['running', 'connected', 'healthy', 'scheduled'].includes(lowerStatus)) {
+        getStoreStateClass(state) {
+            const s = state ? state.toLowerCase() : '';
+            if (s === 'ready') {
                 return 'status-badge status-badge--success';
             }
-            if (['pending'].includes(lowerStatus)) {
+            if (['setup', 'initializing', 'migrating', 'waiting'].includes(s)) {
                 return 'status-badge status-badge--warning';
             }
             return 'status-badge status-badge--error';
-        }
+        },
+
+        getDeploymentStateClass(state) {
+            const s = state ? state.toLowerCase() : '';
+            if (s === 'running') {
+                return 'status-badge status-badge--success';
+            }
+            if (s === 'scaling') {
+                return 'status-badge status-badge--warning';
+            }
+            return 'status-badge status-badge--error';
+        },
+
+        getScheduledTaskStatusClass(status) {
+            if (status === 1) {
+                return 'status-badge status-badge--success';
+            }
+            if (status === 0) {
+                return 'status-badge status-badge--warning';
+            }
+            return 'status-badge status-badge--error';
+        },
+
+        getScheduledTaskStatusLabel(status) {
+            if (status === 1) {
+                return this.$t('frosh-tools.tabs.shopwareOperator.scheduledTask.success');
+            }
+            if (status === -1) {
+                return this.$t('frosh-tools.tabs.shopwareOperator.scheduledTask.failed');
+            }
+            return this.$t('frosh-tools.tabs.shopwareOperator.scheduledTask.unknown');
+        },
+
+        formatTimestamp(timestamp) {
+            if (!timestamp) {
+                return '-';
+            }
+            return new Date(timestamp * 1000).toLocaleString();
+        },
     }
 });
